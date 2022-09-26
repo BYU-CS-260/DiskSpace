@@ -63,7 +63,7 @@ xvda     202:0    0   10G  0 disk
 
 3. You should only have one EBS volume if you are running one instance.  Select this volume.
 
-![](/images/myvolume.png)
+![](/images/yourvolumes.png)
 
 4. Select the modify button
 
@@ -71,7 +71,7 @@ xvda     202:0    0   10G  0 disk
 
 5. Change the size to 30 and click the modify button.  You should see that your volume size is now 30GB.  You can refresh your browser window to see when the change is complete.
 
-![](/images/volumes.png)
+![](/images/changeto30.png)
 
 6. Now you need to update your Linux Ubuntu view of the partition size with "growpart".  
 ```
