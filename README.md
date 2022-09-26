@@ -37,3 +37,70 @@ You should see the amount of disk space each file and directory uses.  You may w
 4.0K    /usr/share/caddy/index.html
 4.0K    /usr/share/caddy/javascript
 ```
+## Growing Your Disk Space
+Fortunately, you can increase the size of your EC2 disk dynamically without creating a new instance.  
+You can increase your disk from the default of 10GBytes to 30GBytes while still staying in the free tier on AWS.  
+But you should still make sure everything is backed up to github in case something goes wrong.  
+To do this, follow these steps:
+
+1. Take a look at the current size of your partitions with "lsblk". You should see that xvda1 has 9.9G of space.
+```
+> sudo lsblk
+NAME     MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+loop0      7:0    0 55.6M  1 loop /snap/core18/2538
+loop1      7:1    0 25.1M  1 loop /snap/amazon-ssm-agent/5656
+loop2      7:2    0   47M  1 loop /snap/snapd/16292
+loop3      7:3    0   48M  1 loop /snap/snapd/16778
+loop4      7:4    0 55.6M  1 loop /snap/core18/2566
+xvda     202:0    0   10G  0 disk
+├─xvda1  202:1    0  9.9G  0 part /
+├─xvda14 202:14   0    4M  0 part
+└─xvda15 202:15   0  106M  0 part /boot/efi
+```
+2. Go to your AWS console, select the EC2 dashboard.  Select Volumes on the left hand panel under "Elastic Block Store".
+
+![](/images/volumes.png)
+
+3. You should only have one EBS volume if you are running one instance.  Select this volume.
+
+![](/images/myvolume.png)
+
+4. Select the modify button
+
+![](/images/modify.png)
+
+5. Change the size to 30 and click the modify button.  You should see that your volume size is now 30GB.  You can refresh your browser window to see when the change is complete.
+
+![](/images/volumes.png)
+
+6. Now you need to update your Linux Ubuntu view of the partition size with "growpart".  
+```
+> sudo growpart /dev/xvda 1
+CHANGED: partition=1 start=227328 old: size=20744159 end=20971487 new: size=62687199,end=62914527
+```
+You should be able to see that the disk partition is now 30GB
+```
+> sudo lsblk
+NAME     MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+loop0      7:0    0 55.6M  1 loop /snap/core18/2538
+loop1      7:1    0 25.1M  1 loop /snap/amazon-ssm-agen
+loop2      7:2    0   47M  1 loop /snap/snapd/16292
+loop3      7:3    0   48M  1 loop /snap/snapd/16778
+loop4      7:4    0 55.6M  1 loop /snap/core18/2566
+xvda     202:0    0   30G  0 disk
+├─xvda1  202:1    0 29.9G  0 part /
+├─xvda14 202:14   0    4M  0 part
+└─xvda15 202:15   0  106M  0 part /boot/efi
+```
+
+7. Use resize2fs to increase the size that Ubuntu sees
+```
+> sudo resize2fs /dev/xvda1
+resize2fs 1.44.1 (24-Mar-2018)
+Filesystem at /dev/xvda1 is mounted on /; on-line resizing required
+old_desc_blocks = 2, new_desc_blocks = 4
+The filesystem on /dev/xvda1 is now 7835899 (4k) blocks long.
+```
+
+8. Congratulations! Now you should be able to see the space with df
+![](/images/bigger.png)
