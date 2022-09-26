@@ -63,7 +63,7 @@ xvda     202:0    0   10G  0 disk
 
 3. You should only have one EBS volume if you are running one instance.  Select this volume.
 
-![](/images/yourvolumes.png)
+![](/images/yourvolume.png)
 
 4. Select the modify button
 
