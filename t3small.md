@@ -1,4 +1,4 @@
-# DiskSpace
+# DiskSpace for t3.small
 
 When you created your Cloud9 EC2 instance you were given 10GB of disk storage for your files.  On my instance the operating system took about 6GB of space leaving me with around 3.6GB of space for development.  This repo will show you how to reclaim some of your disk space or to increase your disk space so that you will be able to complete all of your projects.
 
