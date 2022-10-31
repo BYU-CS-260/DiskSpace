@@ -4,4 +4,4 @@ When you created your Cloud9 EC2 instance you were given 10GB of disk storage fo
 
 Follow this [tutorial](t2micro.md) if you are on a t2.micro instance.
 
-Follow this [tutorial](t3small.md) if you are on a t3.small instance.
+Follow this [tutorial](t3small.md) if you are on a t3.small or t3.micro instance.
